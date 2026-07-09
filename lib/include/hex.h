@@ -8,4 +8,4 @@ hex.h - заголовочный файл модуля hex.c.
 #pragma once
 
 // Перевод hex-байта записанного в строке в char
-char htoc(char* hex);
+unsigned char htoc(char* hex);
