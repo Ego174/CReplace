@@ -29,7 +29,7 @@ int main (int argc, char *argv[], char *envp[]) {
 			return 1;
 		}
 	} else if(argc == 5) {
-		FILE *inputFile = fopen(argv[1], "r");
+		FILE *inputFile = fopen(argv[1], "r"); // Запуск основного функционала
 		FILE *outputFile = fopen(argv[2], "w");
 		if(!inputFile | !outputFile) {
 			if(inputFile) fclose(inputFile);
@@ -37,6 +37,10 @@ int main (int argc, char *argv[], char *envp[]) {
 			printf("Не удалось открыть файл!\n");
 			return 1;
 		}
+		replace(inputFile, outputFile, argv[3], argv[4]);
+		fclose(inputFile);
+		fclose(outputFile);
+		printf("Программа успешно завершила работу!\n");
 	} else {
 		WrongInput();
 		return 1;
