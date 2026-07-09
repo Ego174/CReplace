@@ -6,3 +6,11 @@ CReplace.h - заголовочный файл модуля CReplace.c.
 */
 
 #pragma once
+
+#define N 10
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void replace(FILE *input, FILE *output, char search[], char replace[]);
