@@ -24,10 +24,10 @@ void test1(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output1.txt", "r");
-    char must[35] = "000000000000000000000000000000000";
-    char res[35];
-    fread(res, 1, 35, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 35) == 0);
+    char must[34] = "000000000000000000000000000000000";
+    char res[34];
+    fread(res, 1, 34, read);
+    TEST_ASSERT_TRUE(memcmp(must, res, 34) == 0);
     fclose(read);
 }
 
@@ -48,11 +48,11 @@ void test2(void) {
 void test3(void) {
     FILE* input = fopen("test.txt", "r");
     FILE* output = fopen("output3.txt", "w");
-    replace(input, output, "0x00", "0x10");
+    replace(input, output, "0x00", "0x0a");
     fclose(input);
     fclose(output);
     FILE* read = fopen("output3.txt", "r");
-    char must[100] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
+    char must[100] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
     char res[100];
     fread(res, 1, 100, read);
     TEST_ASSERT_TRUE(memcmp(must, res, 100) == 0);
