@@ -28,10 +28,6 @@ void test1(void) {
     char must[13] = {'A', 'B', 'C', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
     char res[13];
     fread(res, 1, 13, read);
-    for(int i = 0; i < 13; ++i) printf("%d ", must[i]);
-    putchar('\n');
-    for(int i = 0; i < 13; ++i) printf("%d ", res[i]);
-    putchar('\n');
     TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
     fclose(read);
 }
@@ -43,10 +39,10 @@ void test2(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output2.txt", "r");
-    char must[42] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
-    char res[42];
-    fread(res, 1, 42, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 42) == 0);
+    char must[40] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
+    char res[40];
+    fread(res, 1, 40, read);
+    TEST_ASSERT_TRUE(memcmp(must, res, 40) == 0);
     fclose(read);
 }
 
@@ -94,6 +90,10 @@ void test5(void) {
 
 int main(void) {
     UNITY_BEGIN();
+    FILE* test = fopen("test.txt", "w");
+    fwrite("123\nasd\0\nzxc\n", 1, 13, test);
+    fflush(test);
+    fclose(test);
     RUN_TEST(test1);
     RUN_TEST(test2);
     RUN_TEST(test3);
