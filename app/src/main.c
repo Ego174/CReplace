@@ -14,7 +14,7 @@ main.c - главный модуль программы.
 #include <string.h>
 #include <locale.h>
 
-int main (int argc, char *argv[], char *envp[]) {
+int main(int argc, char *argv[], char *envp[]) {
 
 	setlocale(LC_ALL, "");
 

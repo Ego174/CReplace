@@ -19,7 +19,7 @@ fwrite(replaceS, 1, replace_len, output); \
 ind = 0
 
 // Заменяет вхождения одной последовательности байт на другую и записывает результат в выходной файл.
-void replace(FILE *input, FILE *output, char* search, char* replace) {
+void replace(FILE* input, FILE* output, char* search, char* replace) {
 
     char buf[N];
     size_t ind = 0, search_len = strlen(search) / 2 - 1, replace_len = strlen(replace) / 2 - 1;

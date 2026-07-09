@@ -28,7 +28,11 @@ void test1(void) {
     char must[13] = {'A', 'B', 'C', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
     char res[13];
     fread(res, 1, 13, read);
-    TEST_ASSERT(memcmp(must, res, 13) == 0);
+    for(int i = 0; i < 13; ++i) printf("%d ", must[i]);
+    putchar('\n');
+    for(int i = 0; i < 13; ++i) printf("%d ", res[i]);
+    putchar('\n');
+    TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
     fclose(read);
 }
 
@@ -42,7 +46,7 @@ void test2(void) {
     char must[42] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
     char res[42];
     fread(res, 1, 42, read);
-    TEST_ASSERT(memcmp(must, res, 42) == 0);
+    TEST_ASSERT_TRUE(memcmp(must, res, 42) == 0);
     fclose(read);
 }
 
@@ -56,7 +60,7 @@ void test3(void) {
     char must[12] = {'1', '2', '3', '\n', '1', '2', '3', '\n', 'z', 'x', 'c', '\n'};
     char res[12];
     fread(res, 1, 12, read);
-    TEST_ASSERT(memcmp(must, res, 12) == 0);
+    TEST_ASSERT_TRUE(memcmp(must, res, 12) == 0);
     fclose(read);
 }
 
@@ -67,10 +71,10 @@ void test4(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output4.txt", "r");
-    char must[13] = {'A', 'B', 'C', '\n', 'a', 's', 'd', '\n', '\n', 'z', 'x', 'c', '\n'};
+    char must[13] = {'1', '2', '3', '\n', 'a', 's', 'd', '\n', '\n', 'z', 'x', 'c', '\n'};
     char res[13];
     fread(res, 1, 13, read);
-    TEST_ASSERT(memcmp(must, res, 13) == 0);
+    TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
     fclose(read);
 }
 
@@ -81,10 +85,10 @@ void test5(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output5.txt", "r");
-    char must[13] = {'A', 'B', 'C', '\n', 'a', 's', 'd', '\0', '\n', '0', '0', '0', '\n'};
+    char must[13] = {'1', '2', '3', '\n', 'a', 's', 'd', '\0', '\n', '0', '0', '0', '\n'};
     char res[13];
     fread(res, 1, 13, read);
-    TEST_ASSERT(memcmp(must, res, 13) == 0);
+    TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
     fclose(read);
 }
 
