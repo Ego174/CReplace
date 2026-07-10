@@ -35,7 +35,7 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
         printf("Не удалось создать буфер для искомой последовательности!\n");
         exit(1);
     }
-    for(int i = 1; i <= searchLen; ++i) *(searchS + i - 1) = htoc(search + 2 * i);
+    for(size_t i = 1; i <= searchLen; ++i) *(searchS + i - 1) = htoc(search + 2 * i);
 
     // Запись последовательности байт для замены
     char* replaceS = (char*)malloc(replaceLen);
@@ -43,7 +43,7 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
         printf("Не удалось создать буфер для последовательности замены!\n");
         exit(1);
     }
-    for(int i = 1; i <= replaceLen; ++i) *(replaceS + i - 1) = htoc(replace + 2 * i);
+    for(size_t i = 1; i <= replaceLen; ++i) *(replaceS + i - 1) = htoc(replace + 2 * i);
 
     while((bytesRead = fread(buf, 1, N, input)) == N) {
         checkBuf()
