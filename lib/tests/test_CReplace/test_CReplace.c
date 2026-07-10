@@ -18,82 +18,67 @@ void tearDown(void) {
     // Вызывается после каждого теста (можно оставить пустым)
 }
 
-void test1(void) {
-    FILE* input = fopen("test.txt", "r");
-    FILE* output = fopen("output1.txt", "w");
-    replace(input, output, "0x313233", "0x414243");
+void test(char inputPath[], char outputPath[], char searchS[], char replaceS[], char must[], size_t resSize) {
+    FILE* input = fopen(inputPath, "r");
+    if(!input) {
+        printf("Не удалось открыть входной файл!\n");
+        TEST_ASSERT_TRUE(0);
+        return;
+    }
+    FILE* output = fopen(outputPath, "w");
+    if(!output) {
+        printf("Не удалось открыть выходной файл!\n");
+        fclose(input);
+        TEST_ASSERT_TRUE(0);
+        return;
+    }
+    replace(input, output, searchS, replaceS);
     fclose(input);
     fclose(output);
-    FILE* read = fopen("output1.txt", "r");
-    char must[13] = "ABC\nasd\0\nzxc\n";
-    char res[13];
-    fread(res, 1, 13, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
+    FILE* read = fopen(outputPath, "r");
+    if(!read) {
+        printf("Не удалось открыть выходной файл после записи!\n");
+        TEST_ASSERT_TRUE(0);
+        return;
+    }
+    char* res = malloc(resSize);
+    fread(res, 1, resSize, read);
+    TEST_ASSERT_TRUE(memcmp(must, res, resSize) == 0);
+    free(res);
     fclose(read);
+}
+
+void test1(void) {
+    char must[13] = "ABC\nasd\0\nzxc\n";
+    test("test.txt", "output1.txt", "0x313233", "0x414243", must, 13);
 }
 
 void test2(void) {
-    FILE* input = fopen("test.txt", "r");
-    FILE* output = fopen("output2.txt", "w");
-    replace(input, output, "0x313233", "0x414141414141414141414141414141414141414141414141414141414141");
-    fclose(input);
-    fclose(output);
-    FILE* read = fopen("output2.txt", "r");
     char must[40] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nasd\0\nzxc\n";
-    char res[40];
-    fread(res, 1, 40, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 40) == 0);
-    fclose(read);
+    test("test.txt", "output2.txt", "0x313233", "0x414141414141414141414141414141414141414141414141414141414141", must, 40);
 }
 
 void test3(void) {
-    FILE* input = fopen("test.txt", "r");
-    FILE* output = fopen("output3.txt", "w");
-    replace(input, output, "0x61736400", "0x313233");
-    fclose(input);
-    fclose(output);
-    FILE* read = fopen("output3.txt", "r");
     char must[12] = "123\n123\nzxc\n";
-    char res[12];
-    fread(res, 1, 12, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 12) == 0);
-    fclose(read);
+    test("test.txt", "output3.txt", "0x61736400", "0x313233", must, 12);
 }
 
 void test4(void) {
-    FILE* input = fopen("test.txt", "r");
-    FILE* output = fopen("output4.txt", "w");
-    replace(input, output, "0x00", "0x0a");
-    fclose(input);
-    fclose(output);
-    FILE* read = fopen("output4.txt", "r");
     char must[13] = "123\nasd\n\nzxc\n";
-    char res[13];
-    fread(res, 1, 13, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
-    fclose(read);
+    test("test.txt", "output4.txt", "0x00", "0x0a", must, 13);
 }
 
 void test5(void) {
-    FILE* input = fopen("test.txt", "r");
-    FILE* output = fopen("output5.txt", "w");
-    replace(input, output, "0x7a7863", "0x303030");
-    fclose(input);
-    fclose(output);
-    FILE* read = fopen("output5.txt", "r");
     char must[13] = "123\nasd\0\n000\n";
-    char res[13];
-    fread(res, 1, 13, read);
-    TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
-    fclose(read);
+    test("test.txt", "output5.txt", "0x7a7863", "0x303030", must, 13);
 }
 
 int main(void) {
     UNITY_BEGIN();
-    FILE* test = fopen("test.txt", "w");
-    fwrite("123\nasd\0\nzxc\n", 1, 13, test);
-    fflush(test);
-    fclose(test);
+    FILE* testFile = fopen("test.txt", "w");
+    fwrite("123\nasd\0\nzxc\n", 1, 13, testFile);
+    fflush(testFile);
+    fclose(testFile);
     RUN_TEST(test1);
     RUN_TEST(test2);
     RUN_TEST(test3);
