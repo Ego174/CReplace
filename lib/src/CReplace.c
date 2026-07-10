@@ -31,10 +31,18 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
 
     // Запись искомой последовательности байт
     char* searchS = (char*)malloc(search_len);
+    if(!searchS) {
+        printf("Не удалось создать буфер для искомой последовательности!\n")
+        exit(1);
+    }
     for(int i = 1; i <= search_len; ++i) *(searchS + i - 1) = htoc(search + 2 * i);
 
     // Запись последовательности байт для замены
     char* replaceS = (char*)malloc(replace_len);
+    if(!searchS) {
+        printf("Не удалось создать буфер для последовательности замены!\n")
+        exit(1);
+    }
     for(int i = 1; i <= replace_len; ++i) *(replaceS + i - 1) = htoc(replace + 2 * i);
 
     while(1) {
