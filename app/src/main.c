@@ -20,8 +20,8 @@ int main(int argc, char *argv[], char *envp[]) {
 
 	if(argc == 2) {
 		if(strcmp(argv[1], "--version") == 0) printf("You are using CReplace v1.0 by Ego.\n"); // Вывод версии
-		else if(strcmp(argv[1], "--help") == 0) printf("\n\
-Использование: CReplace [input.txt] [output.txt] \"[BYTES TO REPLACE]\" \"[BYES TO REPLACE WITH]\"\n\
+		else if(strcmp(argv[1], "--help") == 0) printf("\
+Использование: replace [input.txt] [output.txt] \"[BYTES TO REPLACE]\" \"[BYES TO REPLACE WITH]\"\n\
 [input.txt] - путь к входному файлу.\n\
 [output.txt] - путь к выходному файлу.\n\
 [BYTES TO REPLACE] - фраза которую нужно заменить.\n\
