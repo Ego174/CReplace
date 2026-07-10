@@ -25,7 +25,7 @@ void test1(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output1.txt", "r");
-    char must[13] = {'A', 'B', 'C', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
+    char must[13] = "ABC\nasd\0\nzxc\n";
     char res[13];
     fread(res, 1, 13, read);
     TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
@@ -39,7 +39,7 @@ void test2(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output2.txt", "r");
-    char must[40] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '\n', 'a', 's', 'd', '\0', '\n', 'z', 'x', 'c', '\n'};
+    char must[40] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nasd\0\nzxc\n";
     char res[40];
     fread(res, 1, 40, read);
     TEST_ASSERT_TRUE(memcmp(must, res, 40) == 0);
@@ -53,7 +53,7 @@ void test3(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output3.txt", "r");
-    char must[12] = {'1', '2', '3', '\n', '1', '2', '3', '\n', 'z', 'x', 'c', '\n'};
+    char must[12] = "123\n123\nzxc\n";
     char res[12];
     fread(res, 1, 12, read);
     TEST_ASSERT_TRUE(memcmp(must, res, 12) == 0);
@@ -67,7 +67,7 @@ void test4(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output4.txt", "r");
-    char must[13] = {'1', '2', '3', '\n', 'a', 's', 'd', '\n', '\n', 'z', 'x', 'c', '\n'};
+    char must[13] = "123\nasd\n\nzxc\n";
     char res[13];
     fread(res, 1, 13, read);
     TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
@@ -81,7 +81,7 @@ void test5(void) {
     fclose(input);
     fclose(output);
     FILE* read = fopen("output5.txt", "r");
-    char must[13] = {'1', '2', '3', '\n', 'a', 's', 'd', '\0', '\n', '0', '0', '0', '\n'};
+    char must[13] = "123\nasd\0\n000\n";
     char res[13];
     fread(res, 1, 13, read);
     TEST_ASSERT_TRUE(memcmp(must, res, 13) == 0);
