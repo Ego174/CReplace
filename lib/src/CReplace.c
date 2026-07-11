@@ -15,7 +15,7 @@ for(size_t i = 0; i < bytesRead; ++i) { \
     else { \
         fwrite(searchS, 1, matches, output); \
         fwrite(buf + i, 1, 1, output); \
-        matches = 0; \
+        matches = (buf[i] == searchS[0]); \
     } \
     if(matches == searchLen) { \
         fwrite(replaceS, 1, replaceLen, output); \
@@ -39,7 +39,7 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
 
     // Запись последовательности байт для замены
     char* replaceS = (char*)malloc(replaceLen);
-    if(!searchS) {
+    if(!replaceS) {
         printf("Не удалось создать буфер для последовательности замены!\n");
         exit(1);
     }
@@ -49,8 +49,8 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
         checkBuf()
     }
     checkBuf()
+    if(matches > 0) fwrite(searchS, 1, matches, output);
 
-    fflush(output);
     free(searchS);
     free(replaceS);
 
