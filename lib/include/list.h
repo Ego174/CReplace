@@ -20,7 +20,7 @@ typedef struct dList {
     listNode* tail;
 } dList;
 
-dList* createList(size_t matches);
+dList* createList();
 void appendList(dList* list, size_t matches);
 void popList(dList* list, listNode* search);
-void freeList(dList* list);
+void clearList(dList* list);

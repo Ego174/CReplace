@@ -8,7 +8,7 @@ list.c - реализация двусвязного списка.
 #include "list.h"
 
 // Создание списка
-dList* createList(size_t matches) {
+dList* createList() {
 
     // Выделение памяти под список
     dList* list = (dList*)malloc(sizeof(dList));
@@ -17,18 +17,8 @@ dList* createList(size_t matches) {
         exit(1);
     }
 
-    // Выделение памяти под узел
-    listNode* node = (listNode*)malloc(sizeof(listNode));
-    if(!node) {
-        printf("Не удалось выделить память под узел списка!\n");
-        exit(1);
-    }
-
-    node->next = NULL;
-    node->prev = NULL;
-    node->matches = matches;
-    list->head = node;
-    list->tail = node;
+    list->head = NULL;
+    list->tail = NULL;
     return list;
 
 }
@@ -100,7 +90,7 @@ void popList(dList* list, listNode* search) {
 }
 
 // Очистка списка
-void freeList(dList* list) {
+void clearList(dList* list) {
 
     if(!list->head) return;
 
