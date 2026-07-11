@@ -13,6 +13,7 @@ CReplace.c - главный модуль библиотеки.
 #define checkBuf() \
 for(size_t i = 0; i < bytesRead; ++i) { \
     if(buf[i] == searchS[0]) appendList(matchesList, 0); \
+    else if(!matchesList->head) fwrite(&buf[i], 1, 1, output); \
     listNode* cur = matchesList->head; \
     while(cur) { \
         if(buf[i] == searchS[cur->matches]) { \
@@ -29,7 +30,10 @@ for(size_t i = 0; i < bytesRead; ++i) { \
                 fwrite(searchS, 1, cur->matches, output); \
                 fwrite(&buf[i], 1, 1, output); \
             } \
-            popList(matchesList, cur); \
+            listNode* tmp = cur; \
+            cur = cur->next; \
+            popList(matchesList, tmp); \
+            continue; \
         } \
         cur = cur->next; \
     } \
