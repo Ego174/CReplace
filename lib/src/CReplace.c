@@ -7,39 +7,26 @@ CReplace.c - главный модуль библиотеки.
 
 #include "CReplace.h"
 #include "hex.h"
-#include "list.h"
 
 // Обработка буфера
-#define checkBuf() \
-for(size_t i = 0; i < bytesRead; ++i) { \
-    if(buf[i] == searchS[0]) appendList(matchesList, 0); \
-    else if(!matchesList->head) fwrite(&buf[i], 1, 1, output); \
-    listNode* cur = matchesList->head; \
-    while(cur) { \
-        if(buf[i] == searchS[cur->matches]) { \
-            if(++(cur->matches) == searchLen) { \
-                fwrite(replaceS, 1, replaceLen, output); \
-                clearList(matchesList); \
-                break; \
-            } \
-        } \
-        else if(cur != matchesList->head) popList(matchesList, cur); \
-        else { \
-            if(cur->next) fwrite(searchS, 1, cur->matches - cur->next->matches, output); \
-            else { \
-                fwrite(searchS, 1, cur->matches, output); \
-                fwrite(&buf[i], 1, 1, output); \
-            } \
-            listNode* tmp = cur; \
-            cur = cur->next; \
-            popList(matchesList, tmp); \
-            continue; \
-        } \
-        cur = cur->next; \
-    } \
+void checkBuf(char* buf, size_t bufLen, char* searchS, size_t searchLen, size_t* matches, FILE* output, char* replaceS, size_t replaceLen, size_t pos) {
+    for(size_t i = 0; i < bufLen; ++i) {
+        if(buf[i] == searchS[*matches]) {
+            if(++(*matches) == searchLen) {
+                fwrite(replaceS, 1, replaceLen, output);
+                *matches = 0;
+            }
+        } else {
+            size_t tmp = *matches;
+            *matches = 0;
+            if(tmp > 1) checkBuf(searchS + pos + 1, tmp - 1, searchS, searchLen, matches, output, replaceS, replaceLen, pos + 1);
+            if(pos != 0) break;
+            
+        }
+    }
 }
 
-// Заменяет вхождения одной последовательности байт на другую и записывает результат в выходной файл.
+// Заменяет вхождения одной последовательности байт на другую и записывает результат в выходной файл
 void replace(FILE* input, FILE* output, char* search, char* replace) {
 
     char buf[N];
@@ -48,7 +35,7 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
     // Запись искомой последовательности байт
     char* searchS = (char*)malloc(searchLen);
     if(!searchS) {
-        printf("Не удалось создать буфер для искомой последовательности!\n");
+        printf("Failed allocating memory for bytes to replace!\n");
         exit(1);
     }
     for(size_t i = 1; i <= searchLen; ++i) *(searchS + i - 1) = htoc(search + 2 * i);
@@ -56,24 +43,20 @@ void replace(FILE* input, FILE* output, char* search, char* replace) {
     // Запись последовательности байт для замены
     char* replaceS = (char*)malloc(replaceLen);
     if(!replaceS) {
-        printf("Не удалось создать буфер для последовательности замены!\n");
+        printf("Failed allocating memory for bytes to replace with!\n");
         exit(1);
     }
     for(size_t i = 1; i <= replaceLen; ++i) *(replaceS + i - 1) = htoc(replace + 2 * i);
 
     // Чтение файла в буфер, обработка буфера пока файл не закончится
-    dList* matchesList = createList();
-    while((bytesRead = fread(buf, 1, N, input)) == N) {
-        checkBuf()
+    while((bytesRead = fread(buf, 1, N, input)) > 0) {
+        for(size_t i = 0; i < bytesRead; ++i ) checkBuf();
     }
-    checkBuf()
 
     // Вывод остатков совпавших байтов
-    if(matchesList->head) fwrite(searchS, 1, matchesList->head->matches, output);
+    if(matches > 0) fwrite(searchS, 1, matches, output);
 
     // Очистка выделенной памяти
-    clearList(matchesList);
-    free(matchesList);
     free(searchS);
     free(replaceS);
 
