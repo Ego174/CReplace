@@ -14,11 +14,6 @@ unsigned char htoc(char* hex) {
 
     unsigned char ret = 0, c0 = hex[0], c1 = hex[1];
 
-    if(strlen(hex) != 2) {
-        printf("Not hex entered!\n");
-        exit(1);
-    }
-
     if(!((c0 >= 0x30 && c0 <= 0x39) || (c0 >= 0x41 && c0 <= 0x46) || (c0 >= 0x61 && c0 <= 0x66))) {
         printf("Not hex entered!\n");
         exit(1);
