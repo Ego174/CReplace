@@ -18,7 +18,7 @@ int main(int argc, char *argv[], char *envp[]) {
 	if(argc == 2) {
 		if(strcmp(argv[1], "--version") == 0) printf("You are using CReplace v1.0 by Ego.\n"); // Вывод версии
 		else if(strcmp(argv[1], "--help") == 0) printf("\
-Usage: replace [input.txt] [output.txt] \"[BYTES TO REPLACE]\" \"[BYES TO REPLACE WITH]\"\n\
+Usage: replace [input.txt] [output.txt] \"[BYTES TO REPLACE]\" \"[BYTES TO REPLACE WITH]\"\n\
 [input.txt] - input file path.\n\
 [output.txt] - output file path.\n\
 [BYTES TO REPLACE] - bytes to replace.\n\
@@ -31,7 +31,7 @@ Bytes must be entered in hex format.\n"); // Помощь в использов�
 	} else if(argc == 5) {
 		FILE *inputFile = fopen(argv[1], "r"); // Запуск основного функционала
 		FILE *outputFile = fopen(argv[2], "w");
-		if(!inputFile | !outputFile) {
+		if(!inputFile || !outputFile) {
 			if(inputFile) fclose(inputFile);
 			if(outputFile) fclose(outputFile);
 			printf("Can't open file!\n");

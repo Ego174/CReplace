@@ -9,7 +9,7 @@ CReplace.c - главный модуль библиотеки.
 #include "hex.h"
 
 // Обработка буфера
-void checkBuf(char* buf, size_t bufLen, char* searchS, size_t searchLen, size_t* matches, FILE* output, char* replaceS, size_t replaceLen) {
+void checkBuf(unsigned char* buf, size_t bufLen, unsigned char* searchS, size_t searchLen, size_t* matches, FILE* output, unsigned char* replaceS, size_t replaceLen) {
     
     for(size_t i = 0; i < bufLen; ++i) {
 
