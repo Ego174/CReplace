@@ -6,6 +6,7 @@ hex.c - модуль для чтения hex строк.
 */
 
 #include <stdio.h>
+#include <string.h>
 #include "hex.h"
 
 // Перевод hex-байта записанного в строке в char
