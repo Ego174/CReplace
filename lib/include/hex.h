@@ -7,5 +7,7 @@ hex.h - заголовочный файл модуля hex.c.
 
 #pragma once
 
+#include <stdlib.h>
+
 // Перевод hex-байта записанного в строке в char
 unsigned char htoc(char* hex);
